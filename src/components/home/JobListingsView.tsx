@@ -362,7 +362,7 @@ export default function JobListingsView({ initialJobs }: JobListingsViewProps) {
               ))
             ) : (
               <Card className="text-center p-8">
-                <p className="text-muted-foreground">No jobs found matching your criteria.</p>
+                <p className="text-muted-foreground">No jobs found matching your criteria </p>
                 {hasActiveFilters && (
                   <Button variant="link" onClick={clearFilters} className="mt-2">
                     Clear all filters
