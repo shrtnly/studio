@@ -8,6 +8,7 @@ import type { Job } from "@/lib/types";
 import { useAuth } from "@/context/AuthContext";
 import { useToast } from "@/hooks/use-toast";
 import JobPreviewCard from "@/components/admin/JobPreviewCard";
+import { PageHeader } from "@/components/admin/ui";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -316,58 +317,46 @@ export default function PostJobPage() {
   const currentPreviewJob = buildJobObject();
 
   return (
-    <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 max-w-5xl">
-      {/* Top action bar */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
-        <div>
-          <div className="flex items-center gap-2 mb-1">
-            <Button asChild variant="ghost" size="sm" className="px-0 hover:bg-transparent text-muted-foreground">
-              <Link href="/admin">
-                <ArrowLeft className="w-4 h-4 mr-1" />
-                Back to Dashboard
-              </Link>
+    <div className="mx-auto max-w-5xl px-4 py-8 sm:px-6 lg:px-8">
+      <PageHeader
+        eyebrow="Hiring"
+        title="Create & Publish Job"
+        description="Complete the details below, preview the live candidate experience, and publish to the database."
+        actions={
+          <div className="flex items-center gap-3">
+            <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as "edit" | "preview")}>
+              <TabsList className="bg-muted/80">
+                <TabsTrigger value="edit" className="text-xs sm:text-sm">
+                  <Briefcase className="w-3.5 h-3.5 mr-1.5" />
+                  Edit Form
+                </TabsTrigger>
+                <TabsTrigger value="preview" className="text-xs sm:text-sm">
+                  <Eye className="w-3.5 h-3.5 mr-1.5" />
+                  Preview Mode
+                </TabsTrigger>
+              </TabsList>
+            </Tabs>
+
+            <Button
+              onClick={handlePublish}
+              disabled={isPublishing}
+              className="bg-accent hover:bg-accent/90 text-accent-foreground font-semibold shadow-md"
+            >
+              {isPublishing ? (
+                <>
+                  <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                  Publishing...
+                </>
+              ) : (
+                <>
+                  <Send className="w-4 h-4 mr-2" />
+                  Publish Job
+                </>
+              )}
             </Button>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-bold font-headline">Create & Publish Job</h1>
-          <p className="text-sm text-muted-foreground">
-            Complete the details below, preview the live candidate experience, and publish to the database.
-          </p>
-        </div>
-
-        {/* Tab switch & publish CTA */}
-        <div className="flex items-center gap-3">
-          <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as "edit" | "preview")}>
-            <TabsList className="bg-muted/80">
-              <TabsTrigger value="edit" className="text-xs sm:text-sm">
-                <Briefcase className="w-3.5 h-3.5 mr-1.5" />
-                Edit Form
-              </TabsTrigger>
-              <TabsTrigger value="preview" className="text-xs sm:text-sm">
-                <Eye className="w-3.5 h-3.5 mr-1.5" />
-                Preview Mode
-              </TabsTrigger>
-            </TabsList>
-          </Tabs>
-
-          <Button
-            onClick={handlePublish}
-            disabled={isPublishing}
-            className="bg-accent hover:bg-accent/90 text-accent-foreground font-semibold shadow-md"
-          >
-            {isPublishing ? (
-              <>
-                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                Publishing...
-              </>
-            ) : (
-              <>
-                <Send className="w-4 h-4 mr-2" />
-                Publish Job
-              </>
-            )}
-          </Button>
-        </div>
-      </div>
+        }
+      />
 
       {/* Mode View: Preview or Form */}
       {activeTab === "preview" ? (

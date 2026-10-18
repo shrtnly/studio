@@ -3,7 +3,7 @@
 import React, { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
-import AdminHeader from "@/components/admin/AdminHeader";
+import AdminShell from "@/components/admin/AdminShell";
 import PendingApprovalView from "@/components/admin/PendingApprovalView";
 import { Loader2 } from "lucide-react";
 
@@ -37,12 +37,5 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   }
 
   // Fully authenticated and approved by Supabase -> Render Admin Portal!
-  return (
-    <div className="min-h-screen bg-background flex flex-col">
-      <AdminHeader />
-      <div className="flex-1">
-        {children}
-      </div>
-    </div>
-  );
+  return <AdminShell>{children}</AdminShell>;
 }
